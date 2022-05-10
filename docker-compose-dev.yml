@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: "pgadmin4"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "root@email.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
+    ports:
+      - "9090:80"
+    depends_on:
+      - postgres
+    networks:
+      - container
+
+  postgres:
+    image: postgres
+    container_name: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=spring_security
+    networks:
+      - container
+
+#  mariadb:
+#    container_name: mariadb
+#    image: mariadb:latest
+#    restart: always
+#    ports:
+#      - 3306:3306
+#    environment:
+#      MARIADB_ROOT_PASSWORD: root
+#    networks:
+#      - container
+#
+#  phpmyadmin:
+#    container_name: phpmyadmin
+#    image: phpmyadmin
+#    restart: always
+#    ports:
+#      - 8081:80
+#    environment:
+#      PMA_ARBITRARY: 1
+#      PMA_HOST: mariadb
+#    networks:
+#      - container
+
+networks:
+  container:
+    driver: bridge
