@@ -27,28 +27,36 @@ import java.util.Collections;
 @EnableWebSecurity
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http
 
             // Set SessionManagement to stateless
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
             // Enable CORS and disable CSRF
-            .and().cors().and().csrf().disable()
+            .cors().and()
+            .csrf().disable()
 
             // Add JWT Filters
             .addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class)
             .addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class)
 
-            // URL request
+            // URL request matchers
             .authorizeRequests()
                 .antMatchers("/contact").permitAll()
-                .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers(SWAGGER_WHITELIST).permitAll()
+                .anyRequest().authenticated().and()
 
-            .and().httpBasic();
+            // Enable Basic Authentication
+            .httpBasic();
     }
 
     @Bean
