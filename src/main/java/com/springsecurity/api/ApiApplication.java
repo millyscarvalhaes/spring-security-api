@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScans;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-//@ComponentScan("com.springsecurity.*")
 @ComponentScans({
 		@ComponentScan("com.springsecurity.config"),
 		@ComponentScan("com.springsecurity.controller"),

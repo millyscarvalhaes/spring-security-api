@@ -41,7 +41,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 return new UsernamePasswordAuthenticationToken(username, password, getGrantedAuthority(optionalUser.get().getAuthorities()));
             }
         }
-
         throw new BadCredentialsException("Invalid credentials!");
     }
 
