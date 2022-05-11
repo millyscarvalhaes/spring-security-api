@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "authority")
+@Table(name = "authorities")
 public class Authority {
 
     @Id
@@ -20,7 +20,7 @@ public class Authority {
     @Column(name = "authority")
     private String authority;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "authorities")
     private Set<User> users;
 
     public int getId() {
